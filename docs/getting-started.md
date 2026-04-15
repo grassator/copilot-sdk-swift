@@ -20,7 +20,7 @@ Before you begin, make sure you have:
 
 - **GitHub Copilot CLI** installed and authenticated ([Installation guide](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli))
 - Your preferred language runtime:
-  - **Node.js** 18+ or **Python** 3.11+ or **Go** 1.21+ or **Java** 17+ or **.NET** 8.0+
+  - **Node.js** 18+ or **Python** 3.11+ or **Go** 1.21+ or **Java** 17+ or **.NET** 8.0+ or **Swift** 6.0+
 
 Verify the CLI is working:
 
@@ -89,6 +89,19 @@ Then add the SDK:
 ```bash
 dotnet add package GitHub.Copilot.SDK
 ```
+
+</details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create a new package and add the SDK dependency:
+
+```swift
+// Package.swift
+.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+```
+
+Then depend on the `CopilotSDK` product from your executable target.
 
 </details>
 
@@ -249,6 +262,46 @@ Run it:
 
 ```bash
 dotnet run
+```
+
+</details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create a new package and add the SDK dependency:
+
+```swift
+// Package.swift
+.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+```
+
+Then depend on the `CopilotSDK` product from your executable target.
+
+</details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create `main.swift`:
+
+```swift
+import CopilotSDK
+
+let client = CopilotClient()
+let session = try await client.createSession(SessionConfiguration(
+    model: "gpt-4.1",
+    onPermissionRequest: PermissionHandlers.approveAll
+))
+
+let response = try await session.sendAndWait(MessageOptions(prompt: "What is 2 + 2?"))
+print(response?.data["content"]?.stringValue ?? "")
+
+try await client.stop()
+```
+
+Run it:
+
+```bash
+swift run
 ```
 
 </details>
@@ -458,6 +511,19 @@ session.On(ev =>
 
 await session.SendAndWaitAsync(new MessageOptions { Prompt = "Tell me a short joke" });
 ```
+
+</details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create a new package and add the SDK dependency:
+
+```swift
+// Package.swift
+.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+```
+
+Then depend on the `CopilotSDK` product from your executable target.
 
 </details>
 
@@ -701,6 +767,19 @@ session.On(ev =>
 // Later, to unsubscribe:
 unsubscribe.Dispose();
 ```
+
+</details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create a new package and add the SDK dependency:
+
+```swift
+// Package.swift
+.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+```
+
+Then depend on the `CopilotSDK` product from your executable target.
 
 </details>
 
@@ -976,6 +1055,19 @@ await session.SendAndWaitAsync(new MessageOptions
     Prompt = "What's the weather like in Seattle and Tokyo?",
 });
 ```
+
+</details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create a new package and add the SDK dependency:
+
+```swift
+// Package.swift
+.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+```
+
+Then depend on the `CopilotSDK` product from your executable target.
 
 </details>
 
@@ -1374,6 +1466,19 @@ dotnet run
 ```
 
 </details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create a new package and add the SDK dependency:
+
+```swift
+// Package.swift
+.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+```
+
+Then depend on the `CopilotSDK` product from your executable target.
+
+</details>
 
 <details>
 <summary><strong>Java</strong></summary>
@@ -1715,6 +1820,19 @@ await using var session = await client.CreateSessionAsync(new()
 ```
 
 </details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create a new package and add the SDK dependency:
+
+```swift
+// Package.swift
+.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+```
+
+Then depend on the `CopilotSDK` product from your executable target.
+
+</details>
 
 <details>
 <summary><strong>Java</strong></summary>
@@ -1816,6 +1934,19 @@ var client = new CopilotClient(new CopilotClientOptions
 ```
 
 No extra dependencies — uses built-in `System.Diagnostics.Activity`.
+
+</details>
+<details>
+<summary><strong>Swift</strong></summary>
+
+Create a new package and add the SDK dependency:
+
+```swift
+// Package.swift
+.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+```
+
+Then depend on the `CopilotSDK` product from your executable target.
 
 </details>
 
