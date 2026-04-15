@@ -8,7 +8,7 @@
 
 Agents for every app.
 
-Embed Copilot's agentic workflows in your application—now available in public preview as a programmable SDK for Python, TypeScript, Go, .NET, and Java.
+Embed Copilot's agentic workflows in your application—now available in public preview as a programmable SDK for Python, TypeScript, Go, .NET, Java, and Swift.
 
 The GitHub Copilot SDK exposes the same engine behind Copilot CLI: a production-tested agent runtime you can invoke programmatically. No need to build your own orchestration—you define agent behavior, Copilot handles planning, tool invocation, file edits, and more.
 
@@ -20,6 +20,7 @@ The GitHub Copilot SDK exposes the same engine behind Copilot CLI: a production-
 | **Python**               | [`python/`](./python/)                                                  | [Cookbook](https://github.com/github/awesome-copilot/blob/main/cookbook/copilot-sdk/python/README.md) | `pip install github-copilot-sdk`                                                                                                                                                                                                           |
 | **Go**                   | [`go/`](./go/)                                                          | [Cookbook](https://github.com/github/awesome-copilot/blob/main/cookbook/copilot-sdk/go/README.md)     | `go get github.com/github/copilot-sdk/go`                                                                                                                                                                                                  |
 | **.NET**                 | [`dotnet/`](./dotnet/)                                                  | [Cookbook](https://github.com/github/awesome-copilot/blob/main/cookbook/copilot-sdk/dotnet/README.md) | `dotnet add package GitHub.Copilot.SDK`                                                                                                                                                                                                    |
+| **Swift**                | [`swift/`](./swift/)                                                    | —                                                                                                     | Swift Package Manager<br>`package.dependencies.append(.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main"))`                                                                                            |
 | **Java**                 | [`github/copilot-sdk-java`](https://github.com/github/copilot-sdk-java) | [Cookbook](https://github.com/github/awesome-copilot/blob/main/cookbook/copilot-sdk/java/README.md)                                                                                                   | Maven coordinates<br>`com.github:copilot-sdk-java`<br>See instructions for [Maven](https://github.com/github/copilot-sdk-java?tab=readme-ov-file#maven) and [Gradle](https://github.com/github/copilot-sdk-java?tab=readme-ov-file#gradle) |
 
 See the individual SDK READMEs for installation, usage examples, and API reference.
@@ -33,7 +34,7 @@ Quick steps:
 1. **(Optional) Install the Copilot CLI**
 
 For Node.js, Python, and .NET SDKs, the Copilot CLI is bundled automatically and no separate installation is required.
-For the Go SDK, [install the CLI manually](https://github.com/features/copilot/cli) or ensure `copilot` is available in your PATH.
+For the Go and Swift SDKs, [install the CLI manually](https://github.com/features/copilot/cli) or ensure `copilot` is available in your PATH.
 
 2. **Install your preferred SDK** using the commands above.
 
@@ -84,7 +85,7 @@ See the **[Authentication documentation](./docs/auth/index.md)** for details on 
 
 No — for Node.js, Python, and .NET SDKs, the Copilot CLI is bundled automatically as a dependency. You do not need to install it separately.
 
-For Go SDK, you may still need to install the CLI manually.
+For Go and Swift SDKs, you may still need to install the CLI manually.
 
 Advanced: You can override the bundled CLI using `cliPath` or `cliUrl` if you want to use a custom CLI binary or connect to an external server.
 
@@ -104,6 +105,7 @@ Yes, check out the custom instructions for each SDK:
 - **[Python](https://github.com/github/awesome-copilot/blob/main/instructions/copilot-sdk-python.instructions.md)**
 - **[.NET](https://github.com/github/awesome-copilot/blob/main/instructions/copilot-sdk-csharp.instructions.md)**
 - **[Go](https://github.com/github/awesome-copilot/blob/main/instructions/copilot-sdk-go.instructions.md)**
+- **[Swift](./swift/README.md)**
 - **[Java](https://github.com/github/copilot-sdk-java/blob/main/instructions/copilot-sdk-java.instructions.md)**
 
 ### What models are supported?

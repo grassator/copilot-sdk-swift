@@ -9,7 +9,7 @@ format: format-go format-python format-nodejs format-dotnet
 lint: lint-go lint-python lint-nodejs lint-dotnet
 
 # Run tests for all languages
-test: test-go test-python test-nodejs test-dotnet test-corrections
+test: test-go test-python test-nodejs test-dotnet test-corrections test-swift
 
 # Format Go code
 format-go:
@@ -77,7 +77,7 @@ test-corrections:
     @cd scripts/corrections && npm test
 
 # Install all dependencies across all languages
-install: install-go install-python install-nodejs install-dotnet install-corrections
+install: install-go install-python install-nodejs install-dotnet install-corrections install-swift
     @echo "✅ All dependencies installed"
 
 # Install Go dependencies and prerequisites for tests
@@ -256,3 +256,13 @@ scenario-build-lang LANG:
     echo ""
     echo "{{LANG}} scenarios: $PASS passed, $FAIL failed"
     [ "$FAIL" -eq 0 ]
+
+
+# Install Swift dependencies
+install-swift:
+    @echo "=== Swift uses SPM-managed dependencies (no install step required) ==="
+
+# Test Swift code
+test-swift:
+    @echo "=== Testing Swift code ==="
+    @cd swift && swift test
