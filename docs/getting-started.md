@@ -94,14 +94,32 @@ dotnet add package GitHub.Copilot.SDK
 <details>
 <summary><strong>Swift</strong></summary>
 
-Create a new package and add the SDK dependency:
+Update `main.swift`:
 
 ```swift
-// Package.swift
-.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
-```
+import CopilotSDK
 
-Then depend on the `CopilotSDK` product from your executable target.
+let client = CopilotClient()
+let session = try await client.createSession(SessionConfiguration(
+    model: "gpt-4.1",
+    onPermissionRequest: PermissionHandlers.approveAll,
+    streaming: true
+))
+
+let unsubscribe = session.on { event in
+    switch event.type {
+    case "assistant.message_delta":
+        print(event.data["deltaContent"]?.stringValue ?? "", terminator: "")
+    case "session.idle":
+        print()
+    default:
+        break
+    }
+}
+
+defer { unsubscribe() }
+_ = try await session.sendAndWait(MessageOptions(prompt: "Tell me a short joke"))
+```
 
 </details>
 
@@ -263,19 +281,6 @@ Run it:
 ```bash
 dotnet run
 ```
-
-</details>
-<details>
-<summary><strong>Swift</strong></summary>
-
-Create a new package and add the SDK dependency:
-
-```swift
-// Package.swift
-.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
-```
-
-Then depend on the `CopilotSDK` product from your executable target.
 
 </details>
 <details>
@@ -516,14 +521,24 @@ await session.SendAndWaitAsync(new MessageOptions { Prompt = "Tell me a short jo
 <details>
 <summary><strong>Swift</strong></summary>
 
-Create a new package and add the SDK dependency:
-
 ```swift
-// Package.swift
-.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
-```
+let unsubscribe = session.on { event in
+    print("Event: \(event.type)")
+}
 
-Then depend on the `CopilotSDK` product from your executable target.
+session.on { event in
+    switch event.type {
+    case "assistant.message":
+        print("Message: \(event.data["content"]?.stringValue ?? "")")
+    case "session.idle":
+        print("Session is idle")
+    default:
+        break
+    }
+}
+
+defer { unsubscribe() }
+```
 
 </details>
 
@@ -772,14 +787,39 @@ unsubscribe.Dispose();
 <details>
 <summary><strong>Swift</strong></summary>
 
-Create a new package and add the SDK dependency:
+Update `main.swift`:
 
 ```swift
-// Package.swift
-.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
-```
+import CopilotSDK
 
-Then depend on the `CopilotSDK` product from your executable target.
+let getWeather = Tool(
+    name: "get_weather",
+    description: "Get the current weather for a city",
+    parameters: [
+        "type": .string("object"),
+        "properties": .object([
+            "city": .object([
+                "type": .string("string"),
+                "description": .string("City name")
+            ])
+        ]),
+        "required": .array([.string("city")])
+    ]
+) { invocation in
+    let city = invocation.arguments["city"]?.stringValue ?? "unknown"
+    return ToolResult(textResultForLLM: "The weather in \(city) is sunny.")
+}
+
+let client = CopilotClient()
+let session = try await client.createSession(SessionConfiguration(
+    model: "gpt-4.1",
+    onPermissionRequest: PermissionHandlers.approveAll,
+    streaming: true,
+    tools: [getWeather]
+))
+
+_ = try await session.sendAndWait(MessageOptions(prompt: "What's the weather like in Seattle and Tokyo?"))
+```
 
 </details>
 
@@ -1060,14 +1100,34 @@ await session.SendAndWaitAsync(new MessageOptions
 <details>
 <summary><strong>Swift</strong></summary>
 
-Create a new package and add the SDK dependency:
+Create `WeatherAssistant.swift`:
 
 ```swift
-// Package.swift
-.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+import CopilotSDK
+import Foundation
+
+let client = CopilotClient()
+let session = try await client.createSession(SessionConfiguration(
+    model: "gpt-4.1",
+    onPermissionRequest: PermissionHandlers.approveAll,
+    tools: [/* your weather tool */]
+))
+
+while true {
+    print("You: ", terminator: "")
+    guard let input = readLine(), !input.isEmpty, input.lowercased() != "exit" else { break }
+    print("Assistant: ", terminator: "")
+    _ = try await session.sendAndWait(MessageOptions(prompt: input))
+    print("
+")
+}
 ```
 
-Then depend on the `CopilotSDK` product from your executable target.
+Run with:
+
+```bash
+swift run
+```
 
 </details>
 
@@ -1469,14 +1529,17 @@ dotnet run
 <details>
 <summary><strong>Swift</strong></summary>
 
-Create a new package and add the SDK dependency:
-
 ```swift
-// Package.swift
-.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
-```
+let client = CopilotClient(options: ClientOptions(
+    cliURL: "localhost:4321",
+    useStdio: false
+))
 
-Then depend on the `CopilotSDK` product from your executable target.
+let session = try await client.createSession(SessionConfiguration(
+    onPermissionRequest: PermissionHandlers.approveAll
+))
+// ...
+```
 
 </details>
 
@@ -1823,14 +1886,15 @@ await using var session = await client.CreateSessionAsync(new()
 <details>
 <summary><strong>Swift</strong></summary>
 
-Create a new package and add the SDK dependency:
-
 ```swift
-// Package.swift
-.package(url: "https://github.com/grassator/copilot-sdk-swift", branch: "main")
+let client = CopilotClient(options: ClientOptions(
+    telemetry: TelemetryConfiguration(
+        otlpEndpoint: "http://localhost:4318"
+    )
+))
 ```
 
-Then depend on the `CopilotSDK` product from your executable target.
+No extra dependencies required.
 
 </details>
 
